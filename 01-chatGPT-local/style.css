@@ -104,6 +104,13 @@ form {
             background-color: #ccc;
             opacity: .6;
             pointer-events: none;
+            color: #121212;
+            font-weight: 700;
         }
     }
+}
+
+small{
+    margin: 16px 0;
+    padding: 16px 0;
 }
