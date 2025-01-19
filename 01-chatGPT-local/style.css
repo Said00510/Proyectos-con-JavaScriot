@@ -6,6 +6,10 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+html{
+    padding: 0 10px;
+}
+
 body {
     background-color: #111518;
     height: 100dvh;
@@ -22,8 +26,9 @@ nav{
 
 main {
     height: 80vh;
-    overflow: auto;
-    padding: 16px 0;
+    overflow-y: auto;
+    padding: 16px 5px;
+    scroll-behavior: smooth;
 
     ul{
         display: flex;
@@ -75,11 +80,15 @@ form {
     padding: 6px 12px;
     border-radius: 12px;
 
-    input {
+    textarea {
         background-color: transparent;
         border: 0;
         flex-grow: 1;
-
+        min-height: 30px; /* Altura inicial para parecer un input */
+        max-height: 96px;
+        resize: none; /* Evita que el usuario cambie el tamaño manualmente */
+        box-sizing: border-box;
+        field-sizing: content;
         &:focus {
             outline: 0;
         }
@@ -90,5 +99,11 @@ form {
         border-radius: 14px;
         border: 0;
         padding: 8px 16px;
+        
+        &[disabled]{
+            background-color: #ccc;
+            opacity: .6;
+            pointer-events: none;
+        }
     }
 }
