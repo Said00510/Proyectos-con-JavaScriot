@@ -1,4 +1,4 @@
-import { CreateMLCEngine } from "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.46/+esm";
+import { CreateWebWorkerMLCEngine } from "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.46/+esm";
 
 const $ = (el) => document.querySelector(el);
 
@@ -15,6 +15,8 @@ const SELECTED_MODEL = "Llama-3-8B-Instruct-q4f16_1-MLC-1k";
 
 let messages = [];
 
+const worker = new Worker('./worker.js', {type: 'module'})
+
 const initProgressCallback = (initProgress) => {
   $info.textContent = initProgress.text;
   if (initProgress.progress === 1) {
@@ -24,7 +26,10 @@ const initProgressCallback = (initProgress) => {
   }
 };
 
-const engine = await CreateMLCEngine(SELECTED_MODEL, {
+const engine = await CreateWebWorkerMLCEngine(
+  worker,
+  SELECTED_MODEL, 
+  {
   initProgressCallback: initProgressCallback,
 });
 
