@@ -10,6 +10,10 @@ html{
     padding: 0 10px;
 }
 
+ul{
+    list-style: none;
+}
+
 body {
     background-color: #111518;
     height: 100dvh;
@@ -114,3 +118,28 @@ small{
     margin: 16px 0;
     padding: 16px 0;
 }
+
+.loading {
+    display: grid;
+    place-items: center;
+}
+
+.spinner {
+    border: 4px solid #fff;
+    border-left-color: transparent;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    
+    animation: spin 1s linear infinite;
+  }
+
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }
