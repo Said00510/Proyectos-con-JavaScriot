@@ -12,24 +12,26 @@ const $info = $("small");
 const $loading = $(".loading");
 
 const SELECTED_MODEL = "Llama-3-8B-Instruct-q4f16_1-MLC-1k";
-
+const worker = new Worker("./worker.js", { type: "module" });
 let messages = [];
+let hasInitCompleted = false;
 
-const worker = new Worker('./worker.js', {type: 'module'})
 
 const initProgressCallback = (initProgress) => {
   $info.textContent = initProgress.text;
-  if (initProgress.progress === 1) {
+  if (initProgress.progress === 1 && !hasInitCompleted) {
+    hasInitCompleted = true;
     $button.removeAttribute("disabled");
-    // addMessage("¡Hola! Soy un Modelo de ChatGpt basado en llama 3.8 que se ejecuta completamente en tu navegador. ¿En qué puedo ayudarte hoy?", 'bot')
+    $loading?.parentNode?.removeChild($loading);
+    addMessage(
+      "¡Hola! Soy un Modelo de ChatGpt basado en llama 3.8 que se ejecuta completamente en tu navegador. ¿En qué puedo ayudarte hoy?",
+      "bot"
+    );
     $input.focus();
   }
 };
 
-const engine = await CreateWebWorkerMLCEngine(
-  worker,
-  SELECTED_MODEL, 
-  {
+const engine = await CreateWebWorkerMLCEngine(worker, SELECTED_MODEL, {
   initProgressCallback: initProgressCallback,
 });
 
@@ -40,7 +42,7 @@ $form.addEventListener("submit", async (event) => {
     $input.value = "";
   }
   addMessage(messageText, "user");
-  $button.setAttribute('disabled', '')
+  $button.setAttribute("disabled", "");
 
   const userMessages = {
     role: "user",
@@ -87,6 +89,7 @@ function addMessage(text, sender) {
 
   $newMessage.classList.add(classSender);
   $messages.appendChild($newMessage);
+  $container.scrollTop = $container.scrollHeight;
 
   return $text;
 }
