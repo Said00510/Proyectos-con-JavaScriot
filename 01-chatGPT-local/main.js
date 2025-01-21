@@ -24,9 +24,10 @@ const initProgressCallback = (initProgress) => {
     $button.removeAttribute("disabled");
     $loading?.parentNode?.removeChild($loading);
     addMessage(
-      "¡Hola! Soy un Modelo de ChatGpt basado en llama 3.8 que se ejecuta completamente en tu navegador. ¿En qué puedo ayudarte hoy?",
+      "Que Hubo pa!. ¿En qué puedo ayudarte hoy?",
       "bot"
     );
+    $container.classList.remove('center')
     $input.focus();
   }
 };
@@ -36,6 +37,7 @@ const engine = await CreateWebWorkerMLCEngine(worker, SELECTED_MODEL, {
 });
 
 $form.addEventListener("submit", async (event) => {
+  
   event.preventDefault();
   const messageText = $input.value.trim();
   if (messageText !== "") {
@@ -93,3 +95,10 @@ function addMessage(text, sender) {
 
   return $text;
 }
+
+$input.addEventListener("keydown", (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    $form.dispatchEvent(new Event("submit"));
+  }
+});
